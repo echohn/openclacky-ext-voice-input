@@ -2,6 +2,8 @@
 
 用语音说话，自动转文字填入输入框——支持点击发送和连续对话两种模式，内置浏览器原生 ASR 与阿里云 DashScope Paraformer 双引擎，自带可视化设置面板。
 
+> 📌 **反馈与建议**：欢迎前往 [GitHub 仓库](https://github.com/echohn/openclacky-ext-voice-input) 提 Issue 报告 Bug 或提出功能需求。
+
 ---
 
 ## 这是什么
