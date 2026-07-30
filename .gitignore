@@ -1,0 +1,5 @@
+# 运行时配置（含个人 API Key，不打包）
+config.yml
+
+# macOS
+.DS_Store

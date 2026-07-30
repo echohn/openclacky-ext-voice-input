@@ -1,0 +1,12 @@
+id: voice-input
+name: 语音输入
+description: 语音输入扩展 -- 支持点击发送和连续对话两种模式，实时语音转文字并自动填入输入框。内置浏览器原生 ASR 与阿里云 DashScope Paraformer 双引擎切换及可视化设置面板。
+version: "0.1.0"
+author: echohn
+origin: self
+contributes:
+  api: api/handler.rb
+  panels:
+    - id: voice-btn
+      view: panels/voice-btn/view.js
+      attach: ["*"]

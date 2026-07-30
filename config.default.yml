@@ -1,0 +1,40 @@
+---
+asr:
+  provider: google
+  model: paraformer-realtime-v1
+language: zh-CN
+shortcuts:
+  toggle:
+    modifiers:
+    - Control
+    - Shift
+    key: z
+  stop:
+    modifiers:
+    - Control
+    - Shift
+    key: s
+  start:
+    modifiers:
+    - Control
+    - Shift
+    key: r
+  voice_mode:
+    modifiers:
+    - Control
+    - Shift
+    key: m
+exit_words:
+- 拜拜
+- 结束语音交互
+- 退出语音交互
+- 关闭语音
+- 再见
+- byebye
+silence_timeout_ms: 1500
+voice_mode_restart_delay_ms: 300
+default_mode: push-to-talk
+sound:
+  start: default
+  stop: default
+  volume: 0.4
