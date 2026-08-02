@@ -158,7 +158,14 @@
         "settings.timing": "时间参数",
         "settings.timing.silence": "静音超时(ms)",
         "settings.timing.restart": "重连延迟(ms)",
-        "settings.timing.desc": "静音超时：说话停顿超过此时长（毫秒），自动结束当前句子并发送（连续对话）。<br>重连延迟：浏览器 ASR 因静音自动停止后，等待此时长再重新开始监听。"
+        "settings.timing.desc": "静音超时：说话停顿超过此时长（毫秒），自动结束当前句子并发送（连续对话）。<br>重连延迟：浏览器 ASR 因静音自动停止后，等待此时长再重新开始监听。",
+        "settings.position": "按钮位置",
+        "settings.position.label": "垂直位置",
+        "settings.position.top": "靠上",
+        "settings.position.center": "居中",
+        "settings.position.bottom": "靠下",
+        "settings.position.desc": "设置语音输入按钮在输入框区域内的垂直对齐方式。",
+        "settings.order": "加载顺序"
       },
       en: {
         "composer.mic_label": "Voice",
@@ -217,7 +224,14 @@
         "settings.timing": "Timing",
         "settings.timing.silence": "Silence timeout (ms)",
         "settings.timing.restart": "Reconnect delay (ms)",
-        "settings.timing.desc": "Silence timeout: if speech pauses longer than this (ms), auto-finalize and send (hands-free mode).<br>Reconnect delay: after browser ASR auto-stops due to silence, wait this long before restarting."
+        "settings.timing.desc": "Silence timeout: if speech pauses longer than this (ms), auto-finalize and send (hands-free mode).<br>Reconnect delay: after browser ASR auto-stops due to silence, wait this long before restarting.",
+        "settings.position": "Button Position",
+        "settings.position.label": "Vertical align",
+        "settings.position.top": "Top",
+        "settings.position.center": "Center",
+        "settings.position.bottom": "Bottom",
+        "settings.position.desc": "Vertical alignment of the voice input button within the composer area.",
+        "settings.order": "Mount Order"
       }
     };
 
@@ -285,7 +299,8 @@
       silence_timeout_ms: 1500,
       voice_mode_restart_delay_ms: 300,
       default_mode: "push-to-talk",
-      sound: { start: "default", stop: "default", volume: 0.4 }
+      sound: { start: "default", stop: "default", volume: 0.4 },
+      ui: { composer_align: "bottom", composer_order: 5 }
     };
     var cfg = JSON.parse(JSON.stringify(defs));
 

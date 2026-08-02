@@ -91,6 +91,12 @@ class VoiceInputExt < Clacky::ApiExtension
       cfg[key] = incoming[key] if incoming.key?(key)
     end
 
+    if incoming["ui"]
+      cfg["ui"] ||= {}
+      cfg["ui"]["composer_align"] = incoming["ui"]["composer_align"] if incoming["ui"].key?("composer_align")
+      cfg["ui"]["composer_order"]   = incoming["ui"]["composer_order"].to_i if incoming["ui"].key?("composer_order")
+    end
+
     if incoming["asr"]
       cfg["asr"] ||= {}
       cfg["asr"]["provider"] = incoming["asr"]["provider"] if incoming["asr"].key?("provider")

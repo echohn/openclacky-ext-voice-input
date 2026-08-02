@@ -86,6 +86,10 @@
     if (key === "default_mode") {
       window.VoiceCore.syncVoiceModeFromConfig();
     }
+    // 按钮垂直位置变更时即时生效
+    if (key === "ui.composer_align") {
+      window.VoiceCore.updateComposerAlignment();
+    }
     // 先乐观更新 UI
     window.VoiceCore.updateAllBtnUI();
     window.VoiceCore.updateBrowserWarning();
@@ -126,6 +130,7 @@
       ".vi-row{display:flex;align-items:center;gap:8px;margin:6px 0}",
       ".vi-label{font-size:12px;color:var(--color-text-secondary,#666);min-width:70px;flex-shrink:0}",
       ".vi-input{flex:1;max-width:220px;font-size:12px}",
+      ".vi-input select{width:100%}",
       ".vi-desc{font-size:11px;color:var(--color-text-muted,#999);margin:6px 0 8px;line-height:1.5}",
       ".vi-volume-value{font-size:11px;color:var(--color-text-muted,#999);min-width:28px;text-align:right}",
       /* ── Settings 页风格对齐（scope 在 .vi-settings-panel 内覆盖独立面板样式）── */
@@ -191,6 +196,29 @@
       row.appendChild(lbl);
       row.appendChild(inp);
       return { row: row, input: inp };
+    }
+    function selectRow(id, label, options, currentValue) {
+      var row = document.createElement("div");
+      row.className = "vi-row";
+      var lbl = document.createElement("label");
+      lbl.className = "vi-label";
+      lbl.textContent = label;
+      var wrap = document.createElement("div");
+      wrap.className = "new-session-field vi-input";
+      var sel = document.createElement("select");
+      sel.className = "new-session-select";
+      if (id) sel.id = id;
+      options.forEach(function (opt) {
+        var o = document.createElement("option");
+        o.value = opt.value;
+        o.textContent = opt.label;
+        if (opt.value === currentValue) o.selected = true;
+        sel.appendChild(o);
+      });
+      wrap.appendChild(sel);
+      row.appendChild(lbl);
+      row.appendChild(wrap);
+      return { row: row, select: sel };
     }
     function desc(html) {
       var d = document.createElement("div");
@@ -258,6 +286,43 @@
       },
     );
     wrapper.appendChild(langGrp);
+    // ── 按钮位置 ──
+    wrapper.appendChild(sec(t("settings.position")));
+    var alignOptions = [
+      { value: "top", label: t("settings.position.top") },
+      { value: "center", label: t("settings.position.center") },
+      { value: "bottom", label: t("settings.position.bottom") },
+    ];
+    var alignRow = selectRow(
+      "vi-composer-align",
+      t("settings.position.label"),
+      alignOptions,
+      (cfg.ui && cfg.ui.composer_align) || "bottom",
+    );
+    alignRow.select.addEventListener("change", function () {
+      onSettingsChange("ui.composer_align", alignRow.select.value);
+    });
+    wrapper.appendChild(alignRow.row);
+    wrapper.appendChild(desc(t("settings.position.desc")));
+    // ── 加载顺序 ──
+    var orderRow = fieldRow(
+      "vi-composer-order",
+      t("settings.order"),
+      "5",
+      "number",
+    );
+    orderRow.input.className = "form-input vi-input";
+    orderRow.input.style.width = "80px";
+    orderRow.input.min = "-100";
+    orderRow.input.max = "100";
+    orderRow.input.value = (cfg.ui && cfg.ui.composer_order) || 5;
+    orderRow.input.addEventListener("change", function () {
+      var v = parseInt(orderRow.input.value, 10);
+      if (isNaN(v)) v = 5;
+      onSettingsChange("ui.composer_order", v);
+    });
+    wrapper.appendChild(orderRow.row);
+    wrapper.appendChild(desc(t("settings.order.desc")));
     // ── 默认模式 ──
     wrapper.appendChild(sec(t("settings.mode")));
     var modeGrp = btnGroup();
@@ -535,6 +600,11 @@
     var restartInp = qs("#vi-restart-delay");
     if (silenceInp) silenceInp.value = cfg.silence_timeout_ms || 1500;
     if (restartInp) restartInp.value = cfg.voice_mode_restart_delay_ms || 300;
+    // UI 位置 / 顺序
+    var alignSel = qs("#vi-composer-align");
+    var orderInp = qs("#vi-composer-order");
+    if (alignSel) alignSel.value = (cfg.ui && cfg.ui.composer_align) || "bottom";
+    if (orderInp) orderInp.value = (cfg.ui && cfg.ui.composer_order != null ? cfg.ui.composer_order : 5);
   }
   // ═══════════════════════════════════════════════════════════════════
   // 5.5 警告横幅

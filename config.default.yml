@@ -38,3 +38,6 @@ sound:
   start: default
   stop: default
   volume: 0.4
+ui:
+  composer_align: bottom
+  composer_order: 5

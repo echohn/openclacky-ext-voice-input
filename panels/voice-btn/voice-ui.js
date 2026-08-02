@@ -7,6 +7,16 @@
   var s = VoiceCore._s;
   var f = VoiceCore._f;
 
+  function escapeHtml(str) {
+    if (str == null) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   // ═══════════════════════════════════════════════════════════════════
   // CSS 注入（语音相关样式）
   // ═══════════════════════════════════════════════════════════════════
@@ -14,22 +24,26 @@
     var style = document.createElement("style");
     style.id = "voice-core-style";
     style.textContent = [
-      ".voice-composer{display:flex;align-items:center;gap:8px;padding:6px 8px;flex-wrap:wrap}",
-      ".voice-mic-btn{display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:1px solid var(--color-border-primary,#d4d4ce);background:var(--color-bg-primary,#fff);color:var(--color-text-secondary,#666);transition:all .15s ease;user-select:none}",
+      ".voice-composer{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 0;flex-wrap:nowrap;width:100%;min-height:44px;box-sizing:border-box}",
+      ".voice-composer-inner{display:inline-flex;align-items:center;gap:7px;flex-wrap:nowrap;box-sizing:border-box}",
+      ".voice-mic-btn{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:4px 7px 4px 9px;border:1px solid var(--color-border-primary,#ddd);border-radius:6px;background:var(--color-bg-primary,#fff);color:var(--color-text-primary,#222);font:inherit;font-size:12px;line-height:1;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease;user-select:none;white-space:nowrap}",
       ".voice-mic-btn:hover:not(:disabled){background:var(--color-bg-hover,#f5f5f4);border-color:var(--color-border-strong,#b0b0a8);color:var(--color-text-primary,#222)}",
       ".voice-mic-btn:active:not(:disabled){transform:scale(.97)}",
       ".voice-mic-btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}",
-      ".voice-mic-btn.recording{background:linear-gradient(135deg,var(--color-error,#e74c3c),#c0392b);color:#fff;border-color:transparent;box-shadow:0 0 0 3px rgba(231,76,60,.25),0 2px 6px rgba(0,0,0,.15);animation:viMicPulse 1.5s ease-in-out infinite}",
-      ".voice-mic-btn.recording:hover:not(:disabled){background:linear-gradient(135deg,#e74c3c,#c0392b);box-shadow:0 0 0 4px rgba(231,76,60,.3),0 2px 8px rgba(0,0,0,.2)}",
-      ".voice-mic-btn.voice-mode{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-color:transparent;box-shadow:0 0 0 3px rgba(99,102,241,.25),0 2px 6px rgba(0,0,0,.15);animation:viBreath 3s ease-in-out infinite}",
-      ".voice-mic-btn.voice-mode:hover:not(:disabled){background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 0 0 4px rgba(99,102,241,.3),0 2px 8px rgba(0,0,0,.2)}",
+      ".voice-mic-btn.recording{background:linear-gradient(135deg,var(--color-error,#e74c3c),#c0392b);color:#fff;border-color:transparent;box-shadow:0 0 0 2px rgba(231,76,60,.2),0 1px 3px rgba(0,0,0,.12);animation:viMicPulse 1.5s ease-in-out infinite}",
+      ".voice-mic-btn.recording:hover:not(:disabled){background:linear-gradient(135deg,#e74c3c,#c0392b);box-shadow:0 0 0 3px rgba(231,76,60,.25),0 2px 6px rgba(0,0,0,.18)}",
+      ".voice-mic-btn.voice-mode{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-color:transparent;box-shadow:0 0 0 2px rgba(99,102,241,.2),0 1px 3px rgba(0,0,0,.12);animation:viBreath 3s ease-in-out infinite}",
+      ".voice-mic-btn.voice-mode:hover:not(:disabled){background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 0 0 3px rgba(99,102,241,.25),0 2px 6px rgba(0,0,0,.18)}",
       ".voice-mic-btn.voice-disabled{border:1px dashed #d4d4d4;background:#f5f5f5;color:#999;box-shadow:none}",
       "@keyframes viMicPulse{0%,100%{box-shadow:0 0 0 3px rgba(231,76,60,.25),0 2px 6px rgba(0,0,0,.15)}50%{box-shadow:0 0 0 8px rgba(231,76,60,0),0 2px 6px rgba(0,0,0,.15)}}",
       "@keyframes viBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}",
-      ".voice-status-text{font-size:11px;color:var(--color-text-muted);min-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+      ".voice-status-text{display:none;align-items:center;gap:6px;min-height:28px;font-size:11px;color:#56585e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1;align-self:center;min-width:80px}.voice-status-text.is-visible{display:inline-flex}",
+      ".voice-status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#56585e}",
+      ".voice-status-text.recording .voice-status-dot{background:#e74c3c;animation:voice-dot-pulse 1s infinite}",
+      ".voice-status-text.voice-mode .voice-status-dot{background:#6366f1}",
+      ".voice-mic-icon{flex-shrink:0;width:14px;height:14px;display:inline-block}",
       "@keyframes voice-dot-pulse{0%,100%{opacity:1}50%{opacity:.2}}",
       ".voice-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;animation:voice-dot-pulse 1s infinite}",
-      ".voice-mic-icon{flex-shrink:0}",
       ".voice-browser-warning{padding:10px 12px;margin-bottom:4px;font-size:12px;line-height:1.5;color:var(--color-warning-text,#8a6d14);background:var(--color-warning-bg,#fff8e1);border:1px solid var(--color-warning,#e6a817);border-radius:var(--radius-sm,6px)}",
       ".voice-browser-warning-inline{font-size:11px;color:var(--color-warning-text,#8a6d14);white-space:nowrap}",
       ".voice-warning-link{color:var(--color-accent-primary,#4a9eff);cursor:pointer;text-decoration:underline}",
@@ -83,7 +97,7 @@
         var t = window.VoiceInput.t;
         var timerStr = f.formatTimer();
         var statusText = s.voiceMode ? t("composer.voice_mode") : t("composer.recording");
-        s.composerStatus.textContent = statusText + (timerStr ? " " + timerStr : "");
+        s.composerStatus.innerHTML = '<span class="voice-status-dot"></span>' + escapeHtml(statusText + (timerStr ? " " + timerStr : ""));
       }
     }, 1000);
   };
@@ -116,6 +130,20 @@
         s.composerBtn.disabled = true;
         s.composerBtn.title = t("composer.title_unsupported");
       }
+    }
+  };
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 按钮垂直位置同步（设置变更后即时生效）
+  // ═══════════════════════════════════════════════════════════════════
+  f.updateComposerAlignment = function () {
+    var cfg = window.VoiceInput.cfg;
+    var alignMap = { top: "flex-start", center: "center", bottom: "flex-end" };
+    var align = (cfg.ui && cfg.ui.composer_align) || "bottom";
+    var value = alignMap[align] || "flex-end";
+    var wraps = document.querySelectorAll(".voice-composer");
+    for (var i = 0; i < wraps.length; i++) {
+      wraps[i].style.alignItems = value;
     }
   };
 
@@ -154,14 +182,18 @@
       }
     }
     if (s.composerStatus) {
+      s.composerStatus.classList.toggle("recording", s.listening && !s.voiceMode);
+      s.composerStatus.classList.toggle("voice-mode", s.listening && s.voiceMode);
       if (s.listening) {
         s.composerStatus.style.color = "";
+        s.composerStatus.classList.add("is-visible");
         var timerStr = f.formatTimer();
         var statusText = s.voiceMode ? t("composer.voice_mode") : t("composer.recording");
-        s.composerStatus.textContent = statusText + (timerStr ? " " + timerStr : "");
+        s.composerStatus.innerHTML = '<span class="voice-status-dot"></span>' + escapeHtml(statusText + (timerStr ? " " + timerStr : ""));
       } else {
         s.composerStatus.textContent = "";
         s.composerStatus.style.color = "";
+        s.composerStatus.classList.remove("is-visible");
       }
     }
   };
@@ -185,9 +217,14 @@
   // ═══════════════════════════════════════════════════════════════════
   f.createComposerUI = function () {
     var t = window.VoiceInput.t;
+    var cfg = window.VoiceInput.cfg;
     var wrap = document.createElement("div");
     wrap.className = "voice-composer";
-    // 浏览器不支持警告（composer 内联）
+    var alignMap = { top: "flex-start", center: "center", bottom: "flex-end" };
+    var align = (cfg.ui && cfg.ui.composer_align) || "bottom";
+    // 外层控制按钮组在 composer 区域中的垂直位置；内层保证按钮与状态文字同高
+    wrap.style.alignItems = alignMap[align] || "flex-end";
+    // 浏览器不支持警告（composer 内联，平时隐藏）
     s.browserWarningBtn = document.createElement("span");
     s.browserWarningBtn.className = "voice-browser-warning-inline";
     s.browserWarningBtn.textContent = t("composer.browser_warning_link");
@@ -202,6 +239,8 @@
         window.VoiceSettings.updateSettingsPanel();
       }
     });
+    var inner = document.createElement("div");
+    inner.className = "voice-composer-inner";
     s.composerBtn = document.createElement("button");
     s.composerBtn.type = "button";
     s.composerBtn.className = "voice-mic-btn";
@@ -211,9 +250,10 @@
     s.composerBtn.addEventListener("click", f.toggleRecording);
     s.composerStatus = document.createElement("span");
     s.composerStatus.className = "voice-status-text";
+    inner.appendChild(s.composerBtn);
+    inner.appendChild(s.composerStatus);
     wrap.appendChild(s.browserWarningBtn);
-    wrap.appendChild(s.composerBtn);
-    wrap.appendChild(s.composerStatus);
+    wrap.appendChild(inner);
     // 浮动 toast（ASR 错误提示，全局 fixed）
     // P0-3: 先清理旧 toast，防止切会话累积僵尸 DOM
     var oldToast = document.querySelector(".voice-error-toast-global");
@@ -224,6 +264,7 @@
     // 切换会话时 session.composer 会重新渲染，新按钮需要同步当前状态
     f.updateAllBtnUI();
     f.updateBrowserWarning();
+    f.updateComposerAlignment();
     return wrap;
   };
 })();
