@@ -24,7 +24,7 @@
     var style = document.createElement("style");
     style.id = "voice-core-style";
     style.textContent = [
-      ".voice-composer{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 0;flex-wrap:nowrap;width:100%;min-height:44px;box-sizing:border-box}",
+      ".voice-composer{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 0;flex-wrap:nowrap;width:100%;min-height:44px;height:100%;box-sizing:border-box}",
       ".voice-composer-inner{display:inline-flex;align-items:center;gap:7px;flex-wrap:nowrap;box-sizing:border-box}",
       ".voice-mic-btn{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:4px 7px 4px 9px;border:1px solid var(--color-border-primary,#ddd);border-radius:6px;background:var(--color-bg-primary,#fff);color:var(--color-text-primary,#222);font:inherit;font-size:12px;line-height:1;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease;user-select:none;white-space:nowrap}",
       ".voice-mic-btn:hover:not(:disabled){background:var(--color-bg-hover,#f5f5f4);border-color:var(--color-border-strong,#b0b0a8);color:var(--color-text-primary,#222)}",

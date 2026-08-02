@@ -286,43 +286,6 @@
       },
     );
     wrapper.appendChild(langGrp);
-    // ── 按钮位置 ──
-    wrapper.appendChild(sec(t("settings.position")));
-    var alignOptions = [
-      { value: "top", label: t("settings.position.top") },
-      { value: "center", label: t("settings.position.center") },
-      { value: "bottom", label: t("settings.position.bottom") },
-    ];
-    var alignRow = selectRow(
-      "vi-composer-align",
-      t("settings.position.label"),
-      alignOptions,
-      (cfg.ui && cfg.ui.composer_align) || "bottom",
-    );
-    alignRow.select.addEventListener("change", function () {
-      onSettingsChange("ui.composer_align", alignRow.select.value);
-    });
-    wrapper.appendChild(alignRow.row);
-    wrapper.appendChild(desc(t("settings.position.desc")));
-    // ── 加载顺序 ──
-    var orderRow = fieldRow(
-      "vi-composer-order",
-      t("settings.order"),
-      "5",
-      "number",
-    );
-    orderRow.input.className = "form-input vi-input";
-    orderRow.input.style.width = "80px";
-    orderRow.input.min = "-100";
-    orderRow.input.max = "100";
-    orderRow.input.value = (cfg.ui && cfg.ui.composer_order) || 5;
-    orderRow.input.addEventListener("change", function () {
-      var v = parseInt(orderRow.input.value, 10);
-      if (isNaN(v)) v = 5;
-      onSettingsChange("ui.composer_order", v);
-    });
-    wrapper.appendChild(orderRow.row);
-    wrapper.appendChild(desc(t("settings.order.desc")));
     // ── 默认模式 ──
     wrapper.appendChild(sec(t("settings.mode")));
     var modeGrp = btnGroup();
@@ -437,6 +400,43 @@
     ewRow.appendChild(ewArea);
     wrapper.appendChild(ewRow);
     wrapper.appendChild(desc(t("settings.exit_words.desc")));
+    // ── 按钮位置 ──
+    wrapper.appendChild(sec(t("settings.position")));
+    var alignOptions = [
+      { value: "top", label: t("settings.position.top") },
+      { value: "center", label: t("settings.position.center") },
+      { value: "bottom", label: t("settings.position.bottom") },
+    ];
+    var alignRow = selectRow(
+      "vi-composer-align",
+      t("settings.position.label"),
+      alignOptions,
+      (cfg.ui && cfg.ui.composer_align) || "bottom",
+    );
+    alignRow.select.addEventListener("change", function () {
+      onSettingsChange("ui.composer_align", alignRow.select.value);
+    });
+    wrapper.appendChild(alignRow.row);
+    wrapper.appendChild(desc(t("settings.position.desc")));
+    // ── 加载顺序 ──
+    var orderRow = fieldRow(
+      "vi-composer-order",
+      t("settings.order"),
+      "5",
+      "number",
+    );
+    orderRow.input.className = "form-input vi-input";
+    orderRow.input.style.width = "80px";
+    orderRow.input.min = "-100";
+    orderRow.input.max = "100";
+    orderRow.input.value = (cfg.ui && cfg.ui.composer_order) || 5;
+    orderRow.input.addEventListener("change", function () {
+      var v = parseInt(orderRow.input.value, 10);
+      if (isNaN(v)) v = 5;
+      onSettingsChange("ui.composer_order", v);
+    });
+    wrapper.appendChild(orderRow.row);
+    wrapper.appendChild(desc(t("settings.order.desc")));
     // ── 音效 ──
     wrapper.appendChild(sec(t("settings.sound")));
     var soundStart = fieldRow(
