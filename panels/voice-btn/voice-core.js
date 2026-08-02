@@ -216,4 +216,5 @@
   VoiceCore.updateBrowserWarning = function () { f.updateBrowserWarning(); };
   VoiceCore.checkBrowserSupport = function () { return f.checkBrowserSupport(); };
   VoiceCore.syncVoiceModeFromConfig = function () { f.syncVoiceModeFromConfig(); };
+  VoiceCore.updateComposerAlignment = function () { f.updateComposerAlignment(); };
 })();
