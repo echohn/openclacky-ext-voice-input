@@ -157,7 +157,7 @@
 
 ### DashScope 提示「API Key 未配置」
 
-前往 **设置 → 语音输入 → 识别引擎** 选择 DashScope，在 API Key 输入框中填入你的阿里云 DashScope API Key。
+前往 **设置 → 语音输入 → 识别引擎** 选择 DashScope，在 API Key 输入框中填入你的阿里云 DashScope API Key。API Key 可在 [阿里云 DashScope 控制台](https://dashscope.console.aliyun.com/) 申请。
 
 ### 连续对话模式说话没有自动发送
 
@@ -185,4 +185,4 @@
 - **退出词让语音控制更自然**。说完话直接说「拜拜」就停，不用伸手去按按钮。
 - **自定义快捷键提升效率**。如果默认组合键与其他工具冲突，在设置中重新绑定即可。
 - **静音超时按需调整**。说话节奏慢可以调大（如 2000ms），语速快可以调小（如 1000ms）。
-- **API Key 安全无忧**。Key 仅存储在本地 `config.yml` 中，前端始终脱敏显示，不会泄露。
+- **API Key 安全无忧**。Key 仅存储在本地配置文件中，前端始终脱敏显示，不会泄露。
