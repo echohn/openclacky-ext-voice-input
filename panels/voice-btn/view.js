@@ -46,7 +46,7 @@
 
     // 加载 settings-panel.js（与 voice 模块并行）
     var sSettings = document.createElement("script");
-    sSettings.src = basePath + "settings-panel.js";
+    sSettings.src = basePath + "settings-panel.js?v=" + Date.now();
     sSettings.onload = onSettingsLoad;
     sSettings.onerror = onSettingsLoad;
     document.head.appendChild(sSettings);
