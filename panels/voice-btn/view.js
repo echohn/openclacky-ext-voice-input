@@ -165,7 +165,8 @@
         "settings.position.center": "居中",
         "settings.position.bottom": "靠下",
         "settings.position.desc": "设置语音输入按钮在输入框区域内的垂直对齐方式。",
-        "settings.order": "加载顺序"
+        "settings.order": "加载顺序",
+        "settings.order.desc": "数字代表组件在输入框区域的加载顺序，数字越大的按钮越靠右显示。需刷新页面后生效。"
       },
       en: {
         "composer.mic_label": "Voice",
@@ -231,7 +232,8 @@
         "settings.position.center": "Center",
         "settings.position.bottom": "Bottom",
         "settings.position.desc": "Vertical alignment of the voice input button within the composer area.",
-        "settings.order": "Mount Order"
+        "settings.order": "Mount Order",
+        "settings.order.desc": "This number controls the loading order in the composer area. Larger numbers appear further to the right. Refresh the page after changing."
       }
     };
 
@@ -387,12 +389,17 @@
     (async function() {
       await loadConfig();
       VoiceCore.init();
+      var composerOrder = (cfg.ui && cfg.ui.composer_order != null)
+        ? parseInt(cfg.ui.composer_order, 10)
+        : 5;
+      if (isNaN(composerOrder)) composerOrder = 5;
+      Clacky.ext.ui.mount("session.composer", function () {
+        return VoiceCore.createComposerUI();
+      }, { order: composerOrder });
+      if (typeof Clacky.ext.refreshSlots === "function") {
+        Clacky.ext.refreshSlots();
+      }
     })();
-
-    // ── 7. 挂载：session.composer（输入框上方快捷按钮）──
-    Clacky.ext.ui.mount("session.composer", function () {
-      return VoiceCore.createComposerUI();
-    });
 
     // ── 8. 挂载：Settings 页 ──
     // 修复 settings 槽位渲染：

@@ -1,7 +1,7 @@
 id: voice-input
 name: 语音输入
-description: 语音输入扩展 -- 支持点击发送和连续对话两种模式，实时语音转文字并自动填入输入框。内置浏览器原生 ASR 与阿里云 DashScope Paraformer 双引擎切换及可视化设置面板。
-version: "0.1.0"
+description: 懒得打字？张嘴就行。支持连续对话，也支持将语音实时转成文字，确认无误后再发送，怎么顺手怎么来。AI 很敬业，它会努力听懂每一个声音，包括隔壁工位。😄 所以请尽量别在一群人聊得热火朝天的时候开启。
+version: "0.1.1"
 author: echohn
 origin: self
 contributes:
