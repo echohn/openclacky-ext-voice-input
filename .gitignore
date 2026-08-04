@@ -3,3 +3,6 @@ config.yml
 
 # macOS
 .DS_Store
+
+# 临时脚本（不提交）
+publish_with_readme.rb

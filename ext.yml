@@ -3,6 +3,7 @@ name: 语音输入
 description: 懒得打字？张嘴就行。支持连续对话，也支持将语音实时转成文字，确认无误后再发送，怎么顺手怎么来。AI 很敬业，它会努力听懂每一个声音，包括隔壁工位。😄 所以请尽量别在一群人聊得热火朝天的时候开启。
 version: "0.1.1"
 author: echohn
+homepage: https://github.com/echohn/openclacky-ext-voice-input
 origin: self
 contributes:
   api: api/handler.rb
